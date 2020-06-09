@@ -62,7 +62,7 @@ sudo cp ./rock64-addon/opt / -r
 sudo cp ./rock64-addon/etc / -r
 ```
 
-# Emulator main  mupend64plus
+# Emulator - main  - mupend64plus
 ```shell
 apt-get install libxmu-dev libxmu-headers freeglut3-dev libxext-dev libxi-dev
 ```
