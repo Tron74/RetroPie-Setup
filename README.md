@@ -1,12 +1,12 @@
-RetroPie-Setup
+RetroPie-Setup 4.6 for RockPro64
 ==============
 
 General Usage
 -------------
 
-Shell script to setup the Raspberry Pi, Vero4K, ODroid-C1 or a PC running Ubuntu with many emulators and games, using EmulationStation as the graphical front end. Bootable pre-made images for the Raspberry Pi are available for those that want a ready to go system, downloadable from the releases section of GitHub or via our website at https://retropie.org.uk
+Original RetroPie 4.6 Shell script modified to work on RockPro64 running Ubuntu (Armbian 20.02.1 Bionic) with many emulators and games, using EmulationStation as the graphical front end.
 
-This script is designed for use on Raspbian on the Raspberry Pi, OSMC on the Vero4K or Ubuntu on the ODroid-C1 or a PC.
+This script is designed for use on Raspbian on the Raspberry Pi, OSMC on the Vero4K or Ubuntu on the ODroid-C1 or a PC, and now for RockPro64.
 
 To run the RetroPie Setup Script make sure that your APT repositories are up-to-date and that Git is installed:
 
@@ -49,5 +49,26 @@ Thanks
 ------
 
 This script just simplifies the usage of the great works of many other people that enjoy the spirit of retrogaming. Many thanks go to them!
-# RetroPie_RockPro64
-# RetroPie_RockPro64
+
+# Information for RockPro64
+
+Requirements:
+
+# Core
+```shell
+sudo apt install libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev
+sudo cp ./rock64-addon/usr / -r
+sudo cp ./rock64-addon/opt / -r
+sudo cp ./rock64-addon/etc / -r
+```
+
+# Emulator main  mupend64plus
+```shell
+apt-get install libxmu-dev libxmu-headers freeglut3-dev libxext-dev libxi-dev
+```
+
+# Driver - snesdev
+```shell
+apt install make libconfuse-dev
+```
+
