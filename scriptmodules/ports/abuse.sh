@@ -16,7 +16,11 @@ rp_module_section="exp"
 
 # abuse-lib & abuse-sfx will pull in the older abuse package which only works under X
 function depends_abuse() {
-    getDepends cmake libsdl2-dev libsdl2-mixer-dev abuse-lib abuse-sfx
+    if isPlatform="rock64"; then
+    	getDepends cmake libsdl2-dev libsdl2-mixer-dev 
+    else
+	getDepends cmake libsdl2-dev libsdl2-mixer-dev abuse-lib abuse-sfx
+    fi
 }
 
 function sources_abuse() {

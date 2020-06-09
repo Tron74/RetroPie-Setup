@@ -36,7 +36,14 @@ function install_bin_golang() {
         else
             arch="386"
         fi
+#        if isPlatform "rock64"; then
+#    	    arch="arm64"
+#        fi
     fi
     printMsgs "console" "Downloading go1.8.linux-$arch.tar.gz"
-    downloadAndExtract "https://storage.googleapis.com/golang/go1.8.linux-$arch.tar.gz" "$md_inst" --strip-components 1
+    if isPlatform "rock64"; then
+        downloadAndExtract "https://dl.google.com/go/go1.14.3.linux-arm64.tar.gz" "$md_inst" --strip-components 1 
+    else
+       downloadAndExtract "https://storage.googleapis.com/golang/go1.8.linux-$arch.tar.gz" "$md_inst" --strip-components 1
+    fi
 }

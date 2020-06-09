@@ -12,5 +12,6 @@
 scriptdir="$(dirname "$0")"
 scriptdir="$(cd "$scriptdir" && pwd)"
 
+
 "$scriptdir/retropie_packages.sh" setup gui
 

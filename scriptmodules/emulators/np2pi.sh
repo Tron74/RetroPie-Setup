@@ -20,12 +20,16 @@ function depends_np2pi() {
 }
 
 function sources_np2pi() {
-    gitPullOrClone "$md_build" https://github.com/eagle0wl/np2pi.git
+        gitPullOrClone "$md_build" https://github.com/eagle0wl/np2pi.git
 }
 
 function build_np2pi() {
     cd sdl
-    make -j 1 -f makefile.rpi
+    if isPlatform "rock64"; then
+        make -j4 PLATFORM=RK3399 -f makefile.rpi
+    else
+        make -j 1 -f makefile.rpi
+    fi
 }
 
 function install_np2pi() {

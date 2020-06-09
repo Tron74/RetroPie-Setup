@@ -20,7 +20,12 @@ function sources_snesdev() {
 
 function build_snesdev() {
     cd "$md_inst"
-    make -j1
+    if isPlatform "rock64"; then
+        make -j4 PLATFORM=RK3399 
+    else
+        make -j1
+    fi
+
     md_ret_require="$md_inst/src/SNESDev"
 }
 

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+# Core - Install RetroArch after install this:
+sudo apt install libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev
+sudo cp ./rock64-addon/usr / -r
+# Reinstall RetroArch
+# Core - Install Eumulationstation 
+# Core - Install retropiemenu
+
+# Driver - Install xboxdrv
+# Driver - Install xpad
+
+sudo cp ./rock64-addon/opt / -r
+sudo cp ./rock64-addon/etc / -r
+
+# Emulator main  mupend64plus
+apt-get install libxmu-dev libxmu-headers freeglut3-dev libxext-dev libxi-dev
+
+# Driver - snesdev
+
+apt install make libconfuse-dev

@@ -25,6 +25,8 @@ function build_lr-yabause() {
     make clean
     if isPlatform "neon"; then
         make platform=armvneonhardfloat
+    elif isPlatorm "rock64"; then
+        make platform=RK3288 HAVE_LTCG=0 ARCH=arm -j4
     else
         make
     fi

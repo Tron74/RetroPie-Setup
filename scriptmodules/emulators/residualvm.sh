@@ -24,6 +24,7 @@ function depends_residualvm() {
     )
     isPlatform "x11" && depends+=(libglew-dev)
     isPlatform "videocore" && depends+=(libraspberrypi-dev)
+    
     getDepends "${depends[@]}"
 }
 
@@ -32,13 +33,25 @@ function sources_residualvm() {
 }
 
 function build_residualvm() {
-    local params=(
-        --enable-opengl-shaders
-        --enable-vkeybd
-        --enable-release
-        --disable-debug
-        --prefix="$md_inst"
-    )
+    if isPlatform "rock64"; then 
+       local params=(
+            --enable-opengl-shaders
+            --enable-vkeybd
+            --enable-release
+            --disable-debug
+        #   --enable-keymapper
+            --prefix="$md_inst"
+        )
+    else
+       local params=(
+            --enable-opengl-shaders
+            --enable-vkeybd
+            --enable-release
+            --disable-debug
+            --enable-keymapper
+            --prefix="$md_inst"
+        )
+    fi
     ! isPlatform "x11" && params+=(--force-opengles2)
     if isPlatform "videocore"; then
         CXXFLAGS+=" -I/opt/vc/include" LDFLAGS+=" -L/opt/vc/lib" ./configure "${params[@]}"

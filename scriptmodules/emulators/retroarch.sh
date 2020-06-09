@@ -23,6 +23,7 @@ function depends_retroarch() {
     isPlatform "x11" && depends+=(libx11-xcb-dev libpulse-dev libvulkan-dev)
     isPlatform "vero4k" && depends+=(vero3-userland-dev-osmc zlib1g-dev libfreetype6-dev)
     isPlatform "kms" && depends+=(libgbm-dev)
+    isPlatform "rock64" 
 
     if compareVersions "$__os_debian_ver" ge 9; then
         depends+=(libavcodec-dev libavformat-dev libavdevice-dev)
@@ -39,7 +40,7 @@ function depends_retroarch() {
 }
 
 function sources_retroarch() {
-    gitPullOrClone "$md_build" https://github.com/libretro/RetroArch.git v1.8.8
+    gitPullOrClone "$md_build" https://github.com/libretro/RetroArch.git v1.8.5
     applyPatch "$md_data/01_hotkey_hack.diff"
     applyPatch "$md_data/02_disable_search.diff"
     applyPatch "$md_data/03_shader_path_config_enable.diff"
@@ -64,7 +65,8 @@ function build_retroarch() {
     isPlatform "arm" && params+=(--enable-floathard)
     isPlatform "neon" && params+=(--enable-neon)
     isPlatform "x11" && params+=(--enable-vulkan)
-    ! isPlatform "x11" && params+=(--disable-vulkan --disable-wayland)
+    #! isPlatform "x11" && params+=(--disable-vulkan --disable-wayland)
+    ! isPlatform "x11" && params+=(--disable-x11 --disable-pulse --disable-wayland)
     isPlatform "vero4k" && params+=(--enable-mali_fbdev --with-opengles_libs='-L/opt/vero3/lib')
     ./configure --prefix="$md_inst" "${params[@]}"
     make clean
@@ -166,7 +168,6 @@ function configure_retroarch() {
 
     iniSet "video_font_size" "24"
     iniSet "core_options_path" "$configdir/all/retroarch-core-options.cfg"
-    iniSet "global_core_options" "true"
     isPlatform "x11" && iniSet "video_fullscreen" "true"
     isPlatform "mesa" && iniSet "video_fullscreen" "true"
 
@@ -261,9 +262,6 @@ function configure_retroarch() {
 
     # enable video shaders on existing configs
     _set_config_option_retroarch "video_shader_enable" "true"
-
-    # (compat) keep all core options in a single file
-    _set_config_option_retroarch "global_core_options" "true"
 
     # remapping hack for old 8bitdo firmware
     addAutoConf "8bitdo_hack" 0

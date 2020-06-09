@@ -21,6 +21,7 @@ function depends_mupen64plus() {
     isPlatform "rpi" && depends+=(libraspberrypi-bin libraspberrypi-dev)
     isPlatform "mesa" && depends+=(libgles2-mesa-dev)
     isPlatform "x11" && depends+=(libglew-dev libglu1-mesa-dev libboost-filesystem-dev)
+    isPlatform "rock64" 
     isPlatform "x86" && depends+=(nasm)
     isPlatform "vero4k" && depends+=(vero3-userland-dev-osmc libboost-all-dev)
     getDepends "${depends[@]}"
@@ -95,7 +96,7 @@ function build_mupen64plus() {
             isPlatform "x11" && params+=("OSD=1" "PIE=1")
             isPlatform "x86" && params+=("SSE=SSE2")
             isPlatform "vero4k" && params+=("HOST_CPU=armv7" "USE_GLES=1")
-
+            
             [[ "$dir" == "mupen64plus-ui-console" ]] && params+=("COREDIR=$md_inst/lib/" "PLUGINDIR=$md_inst/lib/mupen64plus/")
             make -C "$dir/projects/unix" "${params[@]}" clean
             # temporarily disable distcc due to segfaults with cross compiler and lto

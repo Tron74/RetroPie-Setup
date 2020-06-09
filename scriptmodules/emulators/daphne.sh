@@ -26,7 +26,11 @@ function sources_daphne() {
 
 function build_daphne() {
     cd src/vldp2
-    ./configure
+    if isPlatform "rock64"; then
+       ./configure --build=unknown-unknown-linux
+    else
+       ./configure
+    fi
     make -f Makefile.rp
     cd ..
     ln -sf Makefile.vars.rp Makefile.vars

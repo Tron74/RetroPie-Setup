@@ -112,7 +112,7 @@ function conf_build_vars() {
 
     # workaround for GCC ABI incompatibility with threaded armv7+ C++ apps built
     # on Raspbian's armv6 userland https://github.com/raspberrypi/firmware/issues/491
-    if [[ "$__os_id" == "Raspbian" ]] && compareVersions $__gcc_version lt 5; then
+    if [[ "$__os_id" == "Raspbian" ]] && compareVersions $__gcc_version lt 5.0.0; then
         __cxxflags+=" -U__GCC_HAVE_SYNC_COMPARE_AND_SWAP_2"
     fi
 
@@ -208,7 +208,7 @@ function get_os_version() {
                 fi
             fi
             ;;
-        Ubuntu|neon|Pop)
+        Ubuntu|neon)
             if compareVersions "$__os_release" lt 16.04; then
                 error="You need Ubuntu 16.04 or newer"
             # although ubuntu 16.10 reports as being based on stretch it is before some
@@ -354,11 +354,15 @@ function get_platform() {
                 __platform="armv7-mali"
                 ;;
             *)
-                case $architecture in
-                    i686|x86_64|amd64)
-                        __platform="x86"
-                        ;;
-                esac
+                if grep -q "Rock64" /sys/firmware/devicetree/base/model 2>/dev/null; then
+                    __platform="rock64"
+                else
+                    case $architecture in
+                        i686|x86_64|amd64)
+                            __platform="x86"
+                            ;;
+                    esac
+                fi
                 ;;
         esac
     fi
@@ -431,6 +435,21 @@ function platform_odroid-xu() {
     # required for mali-fbdev headers to define GL functions
     __default_cflags=" -DGL_GLEXT_PROTOTYPES"
     __platform_flags="arm armv7 neon mali gles"
+}
+
+function platform_rock64() {
+    if [[ "$(getconf LONG_BIT)" -eq 32 ]]; then
+        __default_cflags="-O2 -march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8"
+        __platform_flags="arm armv8 neon kms gles"
+    else
+        __default_cflags="-O2 -march=native"
+        __platform_flags="aarch64 kms gles"
+    fi
+    __default_cflags+=" -ftree-vectorize -funsafe-math-optimizations"
+    # required for mali headers to define GL functions
+    __default_cflags+=" -DGL_GLEXT_PROTOTYPES"
+    __default_asflags=""
+    __default_makeflags="-j2"
 }
 
 function platform_tinker() {

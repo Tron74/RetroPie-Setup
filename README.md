@@ -49,3 +49,5 @@ Thanks
 ------
 
 This script just simplifies the usage of the great works of many other people that enjoy the spirit of retrogaming. Many thanks go to them!
+# RetroPie_RockPro64
+# RetroPie_RockPro64
